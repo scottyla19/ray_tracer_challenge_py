@@ -1,7 +1,7 @@
 import math
 
 def float_equal(f1, f2):
-        epsilon = 0.000001   
+        epsilon = 0.00001   
         return abs(f1-f2) < epsilon
 
 class Tuple:
