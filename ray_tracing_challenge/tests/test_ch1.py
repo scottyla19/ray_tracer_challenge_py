@@ -66,7 +66,6 @@ class TestTuples(TestCase):
 
         # no change as adding points doesn't make sense
         result3 = pt + pt
-        print(result3)
         self.assertTrue(result3 == Tuple(3,-2,5,1))
 
     def test_subtracting_tuples(self):

@@ -41,7 +41,6 @@ class Matrix:
         b = matrix_b.values
         for i in range(self.rows):
             for j in range(self.columns):
-                print(i,j,float_equal(a[i][j] ,b[i][j]), abs(a[i][j] -b[i][j]))
                 if not float_equal(a[i][j] ,b[i][j]):
                     return False
         return True
@@ -130,9 +129,6 @@ class Matrix:
 
 class IdentityMatrix(Matrix):
     def __init__(self, dims):
-        pass
-    
-    def __new__(self, dims):
         m = [[0 for i in range(dims)] for j in range(dims)]
         for i in range(dims):
             for j in range(dims):
@@ -140,7 +136,61 @@ class IdentityMatrix(Matrix):
                     m[i][j] = 1
                 else:
                     m[i][j] = 0
-        return Matrix(m)
+        self.values = m
+        self.rows = dims
+        self.columns = dims
+
+
+class Transformation(Matrix):
+    def __init__(self):
+        self.values = IdentityMatrix(4)
+        self.rows = 4
+        self.columns = 4
+    
+    def translate(self, x, y, z):
+        self[0,3] = x
+        self[1,3] = y
+        self[2,3] = z
+        return self
+    
+    def scale(self, x, y ,z):
+        self[0,0] = x
+        self[1,1] = y
+        self[2,2] = z
+        return self
+    
+    def rotate_x(self, rads):
+        self[1,1] = math.cos(rads)
+        self[1,2] = math.sin(rads)*-1
+        self[2,1] = math.sin(rads)
+        self[2,2] = math.cos(rads)
+        return self
+    
+    def rotate_y(self, rads):
+        self[0,0] = math.cos(rads)
+        self[0,2] = math.sin(rads)
+        self[2,0] = math.sin(rads)*-1
+        self[2,2] = math.cos(rads)
+        return self
+    
+    def rotate_z(self, rads):
+        self[0,0] = math.cos(rads)
+        self[0,1] = math.sin(rads)*-1
+        self[1,0] = math.sin(rads)
+        self[1,1] = math.cos(rads)
+        return self
+    
+    def shearing(self, xy, xz, yx, yz, zx, zy):
+        self[0,1] = xy
+        self[0,2] = xz
+        self[1,0] = yx
+        self[1,2] = yz
+        self[2,0] = zx
+        self[2,1] = zy
+        return self
+    
+
+
 
 
 

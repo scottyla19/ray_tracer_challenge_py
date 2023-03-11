@@ -12,7 +12,6 @@ class TestMatrices(TestCase):
 
     def test_matrix_4x4(self):
         mat = Matrix([[1,2,3,4], [5.5,6.5,7.5,8.5],[9,10,11,12],[13.5,14.5,15.5,16.5]])
-        # print(mat[0])
         self.assertEqual(mat[0,0], 1)
         self.assertEqual(mat[0,3], 4)
         self.assertEqual(mat[1,0], 5.5)

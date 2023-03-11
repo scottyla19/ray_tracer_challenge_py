@@ -22,23 +22,33 @@ class Tuple:
     
     def __add__(self, tup2):
         new_tup = Tuple(self.x, self.y, self.z, self.w)
-        if not(new_tup.w == 1 and tup2.w == 1):
-            new_tup.x += tup2.x
-            new_tup.y += tup2.y
-            new_tup.z += tup2.z
-            new_tup.w += tup2.w
-        
-        return new_tup
+        new_tup.x += tup2.x
+        new_tup.y += tup2.y
+        new_tup.z += tup2.z
+        new_tup.w += tup2.w
+        if new_tup.w == 1:
+            return Point(new_tup.x ,new_tup.y ,new_tup.z)
+        elif new_tup.w == 0:
+            return Vector(new_tup.x ,new_tup.y ,new_tup.z)
+        else:
+            return self
     
     def __sub__(self, tup2):
         new_tup = Tuple(self.x, self.y, self.z, self.w)
-        if not(new_tup.w == 0.0 and tup2.w == 1):
-            new_tup.x = new_tup.x - tup2.x
-            new_tup.y = new_tup.y - tup2.y
-            new_tup.z = new_tup.z - tup2.z
-            new_tup.w = new_tup.w - tup2.w
-
-        return new_tup
+        # if not(new_tup.w == 0.0 and tup2.w == 1):
+        new_tup.x -= tup2.x
+        new_tup.y -= tup2.y
+        new_tup.z -= tup2.z
+        new_tup.w -= tup2.w
+        if new_tup.w == 1:
+            return Point(new_tup.x ,new_tup.y ,new_tup.z)
+        elif new_tup.w == 0:
+            return Vector(new_tup.x ,new_tup.y ,new_tup.z)
+        else:
+            return self
+    
+    def dot(self, b):
+        return (self.x*b.x + self.y*b.y + self.z*b.z + self.w*b.w)
     
     def __neg__(self):
         return Tuple(-self.x, -self.y, -self.z, -self.w)
@@ -48,6 +58,13 @@ class Tuple:
     
     def __truediv__(self, scalar):
         return Tuple(self.x/scalar, self.y/scalar, self.z/scalar, self.w/scalar)
+    
+    def normalize(self):
+        mag = self.magnitude()
+        return Vector(self.x/mag, self.y/mag, self.z/mag)
+    
+    def magnitude(self):
+        return math.sqrt(self.x**2 + self.y**2 + self.z**2 + self.w**2)
     
     
         
@@ -81,3 +98,7 @@ class Vector(Tuple):
         y = self.z*b.x - self.x*b.z
         z = self.x*b.y - self.y*b.x
         return Vector(x,y,z)
+    
+    def reflect(self, normal):
+        d = self.dot(normal)
+        return self - (normal * 2 *d)

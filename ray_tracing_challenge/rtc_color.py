@@ -16,9 +16,16 @@ class Color:
                 float_equal(color1.green, color2.green) and \
                 float_equal(color1.blue, color2.blue) 
 
-    def __add__(self, color2):
-        return Color(self.red + color2.red, self.green + color2.green, self.blue + color2.blue)
-                
+    def __add__(self, b):
+        if isinstance(b, self.__class__):
+            return Color(self.red + b.red, self.green + b.green, self.blue + b.blue)
+        elif isinstance(b, float):
+            return Color(b+self.red, b+self.green, b+self.blue)
+        elif isinstance(b, int):
+            return Color(b+self.red, b+self.green, b+self.blue)
+        else:
+            raise TypeError("unsupported operand type(s) for +: '{}' and '{}'".format(self.__class__, type(b)))
+        
     def __sub__(self, color2):
         return Color(self.red - color2.red, self.green - color2.green, self.blue - color2.blue)
 
@@ -87,7 +94,6 @@ P3
         ppm += pixel_str
         # turned off clean_ppm_output as it is too inefficient and causes crash
         ppm = self.clean_ppm_output(ppm)
-        print(ppm)
         return ppm
 
 
